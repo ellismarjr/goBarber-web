@@ -8,6 +8,7 @@ import {
   setSeconds,
   isBefore,
   parseISO,
+  addHours,
 } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { utcToZonedTime } from 'date-fns-tz';
@@ -17,7 +18,7 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
 import { Container, Time } from './styles';
 
-const range = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+const range = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 export default function Dashboard() {
   const [schedule, setSchedule] = useState([]);
@@ -44,7 +45,9 @@ export default function Dashboard() {
           time: `${hour}:00h`,
           past: isBefore(compareDate, new Date()),
           appointment: response.data.find(
-            a => parseISO(a.date).toString() === compareDate.toString()
+            a =>
+              addHours(parseISO(a.date), 1).toString() ===
+              compareDate.toString()
           ),
         };
       });
